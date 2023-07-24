@@ -3,10 +3,31 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
         <title>Paige's Weather Place</title>
     </head>
     <body>
-
+        <header>
+            <h1>Weather Pitstop</h1>
+        </header>
+        <main class="d-flex row min-vh-100">
+            <div id="search" class="col-12 col-md-12 col-lg-4">
+                <h2>Search for a City</h2>
+                <form>
+                    <input>
+                    <button>Search</button>
+                </form>
+                <div>City Search History</div>
+            </div>
+            <div id="results" class="col-12 col-md-12 col-lg-8">
+                <h2>City</h2>
+                <div>Daily Forcast</div>
+                <div class="row">5 day forcast
+                    5 dividers to hold next 5 days weather forcast
+                </div>
+            </div>
+        </main>
     </body>
     <footer>Get out there</footer>
 </html>
