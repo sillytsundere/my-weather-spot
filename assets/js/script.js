@@ -6,6 +6,8 @@ $(function () {
   var cityInput = document.getElementById('city');
   var cityDisplay = document.getElementById('city-display');
   var weatherDisplay = document.getElementById('weather-display');
+  var searchHistory = [];
+  var displaySearches = document.getElementById('search-history');
 
   var starterIcon = 'kjfhlkajfbk'
   var starterIcon = `https://openweathermap.org/img/wn/${starterIcon}.png`
@@ -17,12 +19,52 @@ $(function () {
         alert('You must enter a city');
         return
     }
+
+    //localStorage.setItem('search', city);
+    var cities = window.localStorage.getItem('search');
+    
+    var parsedCities = JSON.parse(cities);
+    console.log(parsedCities, 'before push to array');
+    var newCity = {
+        searched: city};    
+    if (!parsedCities){
+        var searchedCities = {
+            cities: []
+        }
+        searchedCities.cities.push(newCity);
+        localStorage.setItem('search', JSON.stringify(searchedCities));
+    } else {
+        parsedCities.cities.push(newCity);
+        localStorage.setItem('search', JSON.stringify(parsedCities));
+    } 
+    console.log(parsedCities, 'after push to array');
+
     getWeather(city);
+    showCities(); //reprinting because it is printing the whole array every time button is clicked-need to fix that
     cityInput.value = '';
   }
 
+  function showCities() {
+    var allCities = JSON.parse(localStorage.getItem('search'));
+    console.log(allCities);
+
+    for (var i = 0; i < allCities.cities.length; i++) {
+        var history = document.createElement('li');
+        history.textContent = allCities.cities[i].searched;
+        displaySearches.appendChild(history);
+    }
+}
+
+//   function addToSearchHistory() {
+    
+//     if (cityInput === '') {
+//         return;
+//     }
+//   }
+
   function getWeather(city) {
     var apiURL = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + apiKey;
+    //temperate literal syntax
     // var urlTemp = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
     fetch(apiURL)
       .then(function (res) {
@@ -42,8 +84,7 @@ $(function () {
 
         //Append to the page
         weatherDisplay.append(tempEl);
-
-
+        //Make previous current weather card disappear
 
       });
   }
