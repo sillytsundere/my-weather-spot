@@ -15,19 +15,21 @@
             <div id="search" class="col-12 col-md-12 col-lg-4">
                 <h2>Search for a City</h2>
                 <form>
-                    <input>
-                    <button>Search</button>
+                    <input id='city' type="text">
+                    <input id="searchbtn" type="submit">
                 </form>
                 <div>City Search History</div>
             </div>
             <div id="results" class="col-12 col-md-12 col-lg-8">
-                <h2>City</h2>
-                <div>Daily Forcast</div>
+                <h2 id="city-display"></h2>
+                <div id="weather-display"></div>
                 <div class="row">5 day forcast
                     5 dividers to hold next 5 days weather forcast
                 </div>
             </div>
         </main>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="./assets/js/script.js"></script>
     </body>
     <footer>Get out there</footer>
 </html>
