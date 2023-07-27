@@ -6,7 +6,6 @@ $(function () {
   var cityInput = document.getElementById('city');
   var cityDisplay = document.getElementById('city-display');
   var weatherDisplay = document.getElementById('weather-display');
-  var searchHistory = [];
   var displaySearches = document.getElementById('search-history');
 
   var starterIcon = 'kjfhlkajfbk'
@@ -24,20 +23,18 @@ $(function () {
     var cities = window.localStorage.getItem('search');
     
     var parsedCities = JSON.parse(cities);
-    console.log(parsedCities, 'before push to array');
-    var newCity = {
-        searched: city};    
+    console.log(parsedCities);
+    //if there arent any parsed cities user hasnt stored anything in local storage so we wat to add their first city to local storage but if there are parsed cities user has been here previously and we want to add those parsed cities to the array
     if (!parsedCities){
-        var searchedCities = {
-            cities: []
-        }
-        searchedCities.cities.push(newCity);
+        var searchedCities = [city];
+        // searchedCities.push(newCity);
         localStorage.setItem('search', JSON.stringify(searchedCities));
     } else {
-        parsedCities.cities.push(newCity);
+        parsedCities.push(city);
+        console.log(parsedCities, 'pushed to array');
         localStorage.setItem('search', JSON.stringify(parsedCities));
     } 
-    console.log(parsedCities, 'after push to array');
+    // console.log(parsedCities, 'after push to array');
 
     getWeather(city);
     showCities(); //reprinting because it is printing the whole array every time button is clicked-need to fix that
@@ -48,19 +45,26 @@ $(function () {
     var allCities = JSON.parse(localStorage.getItem('search'));
     console.log(allCities);
 
-    for (var i = 0; i < allCities.cities.length; i++) {
+    for (var i = 0; i < allCities.length; i++) {
         var history = document.createElement('li');
-        history.textContent = allCities.cities[i].searched;
+        history.textContent = allCities[i];
         displaySearches.appendChild(history);
+        
     }
 }
 
-//   function addToSearchHistory() {
+  function addToSearchHistory() {
+    var searchHistory = JSON.parse(localStorage.getItem('search'));
+    console.log(searchHistory);
+    if (searchHistory) {
+      searchHistory.forEach(city => {
+        var historyList = document.createElement('li');
+        historyList.textContent = city;
+        displaySearches.append(historyList);
+      })
+    }
     
-//     if (cityInput === '') {
-//         return;
-//     }
-//   }
+    }
 
   function getWeather(city) {
     var apiURL = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + apiKey;
@@ -71,8 +75,8 @@ $(function () {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
-        console.log(data.list[0].main.temp);
+        // console.log(data);
+        // console.log(data.list[0].main.temp);
         cityDisplay.textContent = city;
 
         // Create Element
@@ -93,7 +97,7 @@ $(function () {
 
   searchBtn.addEventListener("click", search);
 
-
+  addToSearchHistory();
 });
 
 
