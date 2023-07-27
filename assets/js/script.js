@@ -52,7 +52,7 @@ $(function () {
         
     }
 }
-
+  //this function displays the search history saved in local storage on the page upon page upload as it is called at the bottom of the code
   function addToSearchHistory() {
     var searchHistory = JSON.parse(localStorage.getItem('search'));
     console.log(searchHistory);
@@ -97,6 +97,7 @@ $(function () {
 
   searchBtn.addEventListener("click", search);
 
+  
   addToSearchHistory();
 });
 
