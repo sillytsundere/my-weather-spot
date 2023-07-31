@@ -23,6 +23,7 @@ $(function () {
     }
 
     var cities = window.localStorage.getItem('search');
+    console.log(cities, 'cities');
     
     var parsedCities = JSON.parse(cities);
     console.log(parsedCities);
@@ -37,8 +38,9 @@ $(function () {
         localStorage.setItem('search', JSON.stringify(parsedCities));
     } 
     // console.log(parsedCities, 'after push to array');
-
-    previousSearchHistory();
+    var historyList = document.createElement('li');
+        historyList.textContent = city;
+        displaySearches.append(historyList);
     getWeather(city);
 
     //clears search text box when search is submitted
@@ -67,8 +69,8 @@ $(function () {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
-        console.log(data.list[0].main.temp);
+        console.log(data, 'the data object');
+        console.log(data.list[0].main.temp, 'the temp');
         cityDisplay.textContent = city;
 
         // Create Element
