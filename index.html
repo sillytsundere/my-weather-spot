@@ -12,7 +12,7 @@
             <h1>Weather Pitstop</h1>
         </header>
         <main class="d-flex row min-vh-100">
-            <div id="search" class="col-12 col-md-12 col-lg-4">
+            <section id="search" class="col-12 col-md-12 col-lg-4">
                 <h2>Search for a City</h2>
                 <form>
                     <input id='city' type="text">
@@ -21,14 +21,21 @@
                 <ul id="search-history">
                     <a>City Search History</a>
                 </ul>
-            </div>
-            <div id="results" class="col-12 col-md-12 col-lg-8">
-                <h2 id="city-display"></h2>
-                <div id="weather-display"></div>
+            </section>
+
+            <section id="results" class="col-12 col-md-12 col-lg-8">
+                <div id="weather-display">
+                    <h2 id="city-display"></h2>
+                    <div id="date"></div>
+                    <div id="icon"></div>
+                    <div id="temp"></div>
+                    <div id="humid"></div>
+                    <div id="wind"></div>
+                </div>
                 <div class="row">5 day forcast
                     5 dividers to hold next 5 days weather forcast
                 </div>
-            </div>
+            </section>
         </main>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="./assets/js/script.js"></script>

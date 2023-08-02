@@ -73,16 +73,12 @@ $(function () {
         console.log(data.list[0].main.temp, 'the temp');
         cityDisplay.textContent = city;
 
-        // Create Element
-        var tempEl = document.createElement('p');
+        //identify element
+        tempEl = document.getElementById('temp');
 
         // Give it content
         tempEl.textContent = `Temp: ${data.list[0].main.temp}F`;
         // Add any attributes
-
-        //Append to the page
-        weatherDisplay.append(tempEl);
-        //Make previous current weather card disappear
 
       });
   }
