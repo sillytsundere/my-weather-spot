@@ -72,6 +72,10 @@ $(function () {
       .then((data) => {
         console.log(data, 'the data object');
         console.log(data.list[0].main.temp, 'the temp');
+
+
+        // document.getElementById('weather-display').innerHTML = "";
+
         cityDisplay.textContent = city;
 
         //identify element
@@ -86,10 +90,44 @@ $(function () {
         humidEl.textContent = `Humidity: ${data.list[0].main.humidity}%`;
         windEl.textContent = `Wind Speed: ${data.list[0].wind.speed}mph`;
         dateEl.textContent = `${theMonth} ${theDay}${nth(theDay)} ${theYear}`;
+        iconEl.setAttribute('src', `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}.png`)
         // Add any attributes
 
 
         //for next 5 days the next day at 6am is 8, 16, 24, 32, 39?
+        document.getElementById('five-day').innerHTML = "";
+        for (let i = 7; i < 40; i+=8) {
+    
+          let card = document.createElement('div');
+          card.classList.add('col', 'card');
+          let cardBody = document.createElement('div');
+          cardBody.setAttribute('class', 'card-body');
+          let date = document.createElement('h3');
+          let smIcon = document.createElement('img');
+          let wind = document.createElement('p');
+          let temp = document.createElement('p');
+          let humidity = document.createElement('p');
+
+          //create elements
+          //assign content
+          let iconCode = data.list[i].weather[0].icon;
+          smIcon.setAttribute('src', `https://openweathermap.org/img/wn/${iconCode}.png`);
+          wind.textContent = `Wind Speed: ${data.list[i].wind.speed}mph`;
+          temp.textContent = `Temp: ${data.list[i].main.temp}F`;
+          humidity.textContent = `Humidity: ${data.list[i].main.humidity}%`; 
+
+          let dateText = data.list[i].dt_txt;
+          dateText = dateText.split(' ')[0].split('-');
+          let day = `${dateText[1]}/${dateText[2]}/${dateText[0]}`;        
+          date.textContent = day;
+
+          //add to html 'five-day' element
+          document.getElementById('five-day').append(card);
+          card.append(cardBody);
+          cardBody.append(date, smIcon, temp, humidity, wind);
+        }
+
+        
       });
   }
 
