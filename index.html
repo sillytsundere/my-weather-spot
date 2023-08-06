@@ -12,18 +12,17 @@
             <h1>Weather Pitstop</h1>
         </header>
         <main class="d-flex row min-vh-100">
-            <section id="search" class="col-12 col-md-12 col-lg-4">
-                <h2>Search for a City</h2>
-                <form>
+            <section id="search" class="col-12 col-md-12 col-lg-3">
+                <form class="d-flex flex-column justify-content-center">
+                    <h2>Search for a City:</h2>
                     <input id='city' type="text">
-                    <input id="searchbtn" type="submit">
+                    <button id="searchbtn" type="submit" class="btn btn-primary m-2 ">Submit</button>
                 </form>
-                <ul id="search-history">
-                    <a>City Search History</a>
+                <ul id="search-history" class="d-flex flex-column-reverse gap-2">
                 </ul>
             </section>
 
-            <section id="results" class="col-12 col-md-12 col-lg-8">
+            <section id="results" class="col-12 col-md-12 col-lg-9">
                 <div id="weather-display">
                     <h2 id="city-display"></h2>
                     <div id="date"></div>
