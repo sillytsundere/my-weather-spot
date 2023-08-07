@@ -21,7 +21,7 @@ To use this app, once on the homepage a user will type a desired city into the s
 
 The City information listed includes the date, a weather icon depicting the current weather conditions, temperature, wind speed and humidity. These pieces of information are also listed in the 5 day forcast section which describes weather conditions for the next 5 days. If the user has visited the site previously, their previous city searches will populate underneath the search form, pulled from local storage.
 
-The deployed site can be reached at this link: ()
+The deployed site can be reached at this link: https://sillytsundere.github.io/my-weather-spot/
 
 ## Support
 
