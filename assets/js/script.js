@@ -9,7 +9,6 @@ var displaySearches = document.getElementById("search-history");
 
 $(function () {
 
-
   function search(event) {
     //prevents reload of page on search submission
     event.preventDefault();
@@ -22,33 +21,29 @@ $(function () {
     }
 
     var parsedCities = JSON.parse(window.localStorage.getItem("search"));
-    console.log(parsedCities);
     //if there arent any parsed cities user hasnt stored anything in local storage so we want to add their first city to local storage
     if (!parsedCities) {
       var searchedCities = [city];
       localStorage.setItem("search", JSON.stringify(searchedCities));
-      console.log(parsedCities, "if parsedCities doesnt exist");
     } else {
       //if there are parsed cities user has been here previously and we want to add those parsed cities to the array
       parsedCities.push(city);
-      console.log(parsedCities, "after it is pushed to array");
       localStorage.setItem("search", JSON.stringify(parsedCities));
     }
-
+    //creates and displays searched cities as button elements and appends them to search history div element
     var historyItem = document.createElement("button");
     historyItem.setAttribute("class", "btn btn-primary");
     historyItem.textContent = city;
     displaySearches.append(historyItem);
     getWeather(city);
-    // historyItem.addEventListener('click', getWeather(this));
-    //above line seems to be wrong
 
     //clears search text box when search is submitted
     cityInput.value = "";
   }
 
 
-  //this function displays the search history saved in local storage on the page upon page upload as it is called at the bottom of the code
+  //this function displays the search history saved in local storage upon page upload as it is called at the bottom of the code
+  //it creates and displays cities saved in local storage as button elements and appends them to history div element upon page load
   function previousSearches() {
     var searchHist = JSON.parse(localStorage.getItem("search"));
     console.log(searchHist, "search history");
@@ -58,9 +53,6 @@ $(function () {
         historyItem.setAttribute("class", "btn btn-primary");
         historyItem.textContent = city;
         displaySearches.append(historyItem);
-        //historyItem.addEventListener('click', getWeather(this));
-        //above line seems to be wrong
-        //historyItem.addEventListener('click', getWeather(historyItem.textContent));
       });
     }
   }
@@ -96,9 +88,10 @@ $(function () {
         iconEl.setAttribute("src", `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}.png`);
         // Add any attributes
 
-        //for next 5 days the next day at 6am is 8, 16, 24, 32, 39?
+        //for loop to generate and display future weather conditions for next 5 days
         document.getElementById("five-day").innerHTML = "";
         for (let i = 7; i < 40; i += 8) {
+          //create elements
           let card = document.createElement("div");
           card.classList.add("col", "card");
           let cardBody = document.createElement("div");
@@ -109,14 +102,12 @@ $(function () {
           let temp = document.createElement("p");
           let humidity = document.createElement("p");
 
-          //create elements
           //assign content
           let iconCode = data.list[i].weather[0].icon;
           smIcon.setAttribute("src", `https://openweathermap.org/img/wn/${iconCode}.png`);
           wind.textContent = `Wind Speed: ${Math.round(data.list[i].wind.speed * 10) / 10}mph`;
           temp.textContent = `Temp: ${Math.trunc(data.list[i].main.temp)}F`;
           humidity.textContent = `Humidity: ${data.list[i].main.humidity}%`;
-
           let dateText = data.list[i].dt_txt;
           dateText = dateText.split(" ")[0].split("-");
           let day = `${dateText[1]}/${dateText[2]}/${dateText[0]}`;
@@ -141,6 +132,13 @@ $(function () {
     }
   }
 
+  //event listener for search history buttons, uses event bubbling to target the button elements in the display searches element 
+  displaySearches.addEventListener('click', function(e) {
+    //only alert for elements that have a "btn" class
+    if (e.target.classList.contains('btn')){
+      getWeather(e.target.innerHTML);
+    }
+  })
 
   searchBtn.addEventListener("click", search);
 
