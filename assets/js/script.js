@@ -69,6 +69,7 @@ $(function () {
         console.log(data, "the data object");
 
         // document.getElementById('weather-display').innerHTML = "";
+        //potential to refactor this section to create elements dynamically instead of editing empty html elements 
 
         cityDisplay.textContent = city;
 
@@ -85,15 +86,15 @@ $(function () {
         humidEl.textContent = `Humidity: ${data.list[0].main.humidity}%`;
         windEl.textContent = `Wind Speed: ${Math.round(data.list[0].wind.speed * 10) / 10}mph`;
         dateEl.textContent = `${theMonth} ${theDay}${nth(theDay)} ${theYear}`;
+        // Add icon src attribute
         iconEl.setAttribute("src", `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}.png`);
-        // Add any attributes
 
         //for loop to generate and display future weather conditions for next 5 days
         document.getElementById("five-day").innerHTML = "";
         for (let i = 7; i < 40; i += 8) {
           //create elements
           let card = document.createElement("div");
-          card.classList.add("col", "card");
+          card.classList.add("col", "card", "m-1");
           let cardBody = document.createElement("div");
           cardBody.setAttribute("class", "card-body");
           let date = document.createElement("h5");
@@ -140,6 +141,7 @@ $(function () {
     }
   })
 
+  //event listener to initiate search which calls get weather function to enact main functionality of web app
   searchBtn.addEventListener("click", search);
 
   //displays search history retreived from local storage when page is loaded
