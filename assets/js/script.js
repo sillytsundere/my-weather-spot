@@ -4,13 +4,14 @@ var theYear = dayjs().format("YYYY");
 var apiKey = "714201ec7c0eacaa109850c8fe5f66dd";
 var searchBtn = document.getElementById("searchbtn");
 var cityInput = document.getElementById("city");
+var weatherDisplay = document.getElementById("weather-display");
 var cityDisplay = document.getElementById("city-display");
 var displaySearches = document.getElementById("search-history");
 
 $(function () {
   $("body").css(
     "background",
-    "linear-gradient(to top, #FFC371 0%, #09203F 100%)"
+    "linear-gradient(to top, #FFC371 0%, #09203F 85%)"
   );
 
   function search(event) {
@@ -41,8 +42,10 @@ $(function () {
     displaySearches.append(historyItem);
     getWeather(city);
 
-    //clears search text box when search is submitted
+    // clears search text box when search is submitted
     cityInput.value = "";
+    // Unfocus the search button after search is made
+    searchBtn.blur();
   }
 
   //this function displays the search history saved in local storage upon page upload as it is called at the bottom of the code
@@ -71,7 +74,6 @@ $(function () {
 
         // document.getElementById('weather-display').innerHTML = "";
         //potential to refactor this section to create elements dynamically instead of editing empty html elements
-
         cityDisplay.textContent = city;
 
         //identify element
@@ -83,7 +85,7 @@ $(function () {
 
         // Give it content
         tempItem = Math.trunc(data.list[0].main.temp);
-        tempEl.textContent = `Temp: ${tempItem}F`;
+        tempEl.textContent = `Temp: ${tempItem}\u00B0F`;
         humidEl.textContent = `Humidity: ${data.list[0].main.humidity}%`;
         windEl.textContent = `Wind Speed: ${
           Math.round(data.list[0].wind.speed * 10) / 10
@@ -109,13 +111,14 @@ $(function () {
             "rounded-3",
             "border-white"
           );
+          // Add the 'show' class to trigger the slide-in effect
           card.setAttribute(
             "style",
             "background-color: rgba(255, 255, 255, 0); "
           );
           let cardBody = document.createElement("div");
           cardBody.setAttribute("class", "card-body");
-          let date = document.createElement("h5");
+          let date = document.createElement("h3");
           let smIcon = document.createElement("img");
           let wind = document.createElement("p");
           let temp = document.createElement("p");
@@ -130,7 +133,9 @@ $(function () {
           wind.textContent = `Wind Speed: ${
             Math.round(data.list[i].wind.speed * 10) / 10
           }mph`;
-          temp.textContent = `Temp: ${Math.trunc(data.list[i].main.temp)}F`;
+          temp.textContent = `Temp: ${Math.trunc(
+            data.list[i].main.temp
+          )}\u00B0F`;
           humidity.textContent = `Humidity: ${data.list[i].main.humidity}%`;
           let dateText = data.list[i].dt_txt;
           dateText = dateText.split(" ")[0].split("-");
@@ -139,6 +144,10 @@ $(function () {
 
           //add to html 'five-day' element
           document.getElementById("five-day").append(card);
+          // trigger slide-in effect after a short delay
+          setTimeout(() => {
+            card.classList.add("show");
+          }, 100 * i); // adjust the delay as needed
           card.append(cardBody);
           cardBody.append(date, smIcon, temp, humidity, wind);
         }
@@ -164,6 +173,8 @@ $(function () {
     //only alert for elements that have a "btn" class
     if (e.target.classList.contains("btn")) {
       getWeather(e.target.innerHTML);
+      // unfocus button after it is clicked
+      e.target.blur();
     }
   });
 
