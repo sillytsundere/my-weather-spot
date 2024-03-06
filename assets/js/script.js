@@ -10,7 +10,7 @@ var displaySearches = document.getElementById("search-history");
 $(function () {
   $("body").css(
     "background",
-    "linear-gradient(to top, #C33764 0%, #1D2671 100%)"
+    "linear-gradient(to top, #FFC371 0%, #09203F 100%)"
   );
 
   function search(event) {
@@ -46,10 +46,9 @@ $(function () {
   }
 
   //this function displays the search history saved in local storage upon page upload as it is called at the bottom of the code
-  //it creates and displays cities saved in local storage as button elements and appends them to history div element upon page load
+  //it creates and displays cities saved in local storage as button elements and appends them to search-history div element upon page load
   function previousSearches() {
     var searchHist = JSON.parse(localStorage.getItem("search"));
-    console.log(searchHist, "search history");
     if (searchHist) {
       searchHist.forEach((city) => {
         var historyItem = document.createElement("button");
