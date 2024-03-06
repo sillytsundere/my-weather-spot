@@ -9,6 +9,8 @@ var displaySearches = document.getElementById("search-history");
 
 $(function () {
 
+  $("body").css("background", "linear-gradient(to top, #C33764 0%, #1D2671 100%)")
+
   function search(event) {
     //prevents reload of page on search submission
     event.preventDefault();
@@ -94,7 +96,8 @@ $(function () {
         for (let i = 7; i < 40; i += 8) {
           //create elements
           let card = document.createElement("div");
-          card.classList.add("col", "card", "m-1");
+          card.classList.add("col", "card", "m-1", "border-2", "rounded-3", "border-white");
+          card.setAttribute("style", "background-color: rgba(255, 255, 255, 0); ")
           let cardBody = document.createElement("div");
           cardBody.setAttribute("class", "card-body");
           let date = document.createElement("h5");
