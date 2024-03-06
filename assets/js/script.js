@@ -36,7 +36,7 @@ $(function () {
     }
     //creates and displays searched cities as button elements and appends them to search history div element
     var historyItem = document.createElement("button");
-    historyItem.setAttribute("class", "btn btn-primary");
+    historyItem.setAttribute("class", "btn btn-dark");
     historyItem.textContent = city;
     displaySearches.append(historyItem);
     getWeather(city);
