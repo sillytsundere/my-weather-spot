@@ -1,17 +1,16 @@
-# Paige's Weather Place
+# Stellar Weather
 
 ## Description
 
-I have a primal desire to travel and see as much of this world with my own two eyes as I can during my short time here. This web application serves to assist my acheivement of that goal. 
+I have a primal desire to travel and see as much of this world with my own two eyes as I can during my short time here. This web application serves to assist my acheivement of that goal.
 
 This weather application displays the current forcast for a desired city as well as the future forcast over a 5 day period. This application can make it easier for those who are frequently traveling to view the current and future weather conditions for the cities they wish to travel to. The search history section also allows users to easily view cities they have recently searched and recheck the weather conditions of that city. This can aid in comparing weather conditions of searched cities when choosing where to travel.
 
-This application required me to become familiar with API's and making fetch requests from them. It also allowed for extra practice traversing the fetched objects from the API library. I was also able to practice with some basic elements of bootstrap styling, as there is no basic css in this web application. 
+This application required me to become familiar with API's and making fetch requests from them. It also allowed for extra practice traversing the fetched objects from the API library. I was also able to practice with some basic elements of Bootstrap styling, as there is no external CSS file in this web application. I challenged myself to use as much Bootstrap styling as possible (thinking I could get away without using any basic CSS), but there are a few things Bootstrap can't quite do on its own. In keeping with using as little basic CSS as possible I limited myself to internal CSS with no external CSS.
 
 ## Installation
 
 To run the code, clone the project directories from [my repository](https://github.com/sillytsundere/my-weather-spot) and open the index.html and script.js files in preferred code editor. The HTML file can be viewed to examine the basic display elements and how they are organized on the webpage. Styling elements from bootstrap can also be seen in the HTML file. The Javascript file can be viewed to inspect the interactivity of the webpage as well as dynamically created elements.
-
 
 ## Usage
 
