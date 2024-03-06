@@ -8,8 +8,10 @@ var cityDisplay = document.getElementById("city-display");
 var displaySearches = document.getElementById("search-history");
 
 $(function () {
-
-  $("body").css("background", "linear-gradient(to top, #C33764 0%, #1D2671 100%)")
+  $("body").css(
+    "background",
+    "linear-gradient(to top, #C33764 0%, #1D2671 100%)"
+  );
 
   function search(event) {
     //prevents reload of page on search submission
@@ -43,7 +45,6 @@ $(function () {
     cityInput.value = "";
   }
 
-
   //this function displays the search history saved in local storage upon page upload as it is called at the bottom of the code
   //it creates and displays cities saved in local storage as button elements and appends them to history div element upon page load
   function previousSearches() {
@@ -52,17 +53,16 @@ $(function () {
     if (searchHist) {
       searchHist.forEach((city) => {
         var historyItem = document.createElement("button");
-        historyItem.setAttribute("class", "btn btn-primary");
+        historyItem.setAttribute("class", "btn btn-dark");
         historyItem.textContent = city;
         displaySearches.append(historyItem);
       });
     }
   }
 
-
   function getWeather(city) {
     var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`;
-    
+
     fetch(apiURL)
       .then(function (res) {
         return res.json();
@@ -71,7 +71,7 @@ $(function () {
         console.log(data, "the data object");
 
         // document.getElementById('weather-display').innerHTML = "";
-        //potential to refactor this section to create elements dynamically instead of editing empty html elements 
+        //potential to refactor this section to create elements dynamically instead of editing empty html elements
 
         cityDisplay.textContent = city;
 
@@ -86,18 +86,34 @@ $(function () {
         tempItem = Math.trunc(data.list[0].main.temp);
         tempEl.textContent = `Temp: ${tempItem}F`;
         humidEl.textContent = `Humidity: ${data.list[0].main.humidity}%`;
-        windEl.textContent = `Wind Speed: ${Math.round(data.list[0].wind.speed * 10) / 10}mph`;
+        windEl.textContent = `Wind Speed: ${
+          Math.round(data.list[0].wind.speed * 10) / 10
+        }mph`;
         dateEl.textContent = `${theMonth} ${theDay}${nth(theDay)} ${theYear}`;
+
         // Add icon src attribute
-        iconEl.setAttribute("src", `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}.png`);
+        iconEl.setAttribute(
+          "src",
+          `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}.png`
+        );
 
         //for loop to generate and display future weather conditions for next 5 days
         document.getElementById("five-day").innerHTML = "";
         for (let i = 7; i < 40; i += 8) {
           //create elements
           let card = document.createElement("div");
-          card.classList.add("col", "card", "m-1", "border-2", "rounded-3", "border-white");
-          card.setAttribute("style", "background-color: rgba(255, 255, 255, 0); ")
+          card.classList.add(
+            "col",
+            "card",
+            "m-1",
+            "border-2",
+            "rounded-3",
+            "border-white"
+          );
+          card.setAttribute(
+            "style",
+            "background-color: rgba(255, 255, 255, 0); "
+          );
           let cardBody = document.createElement("div");
           cardBody.setAttribute("class", "card-body");
           let date = document.createElement("h5");
@@ -108,8 +124,13 @@ $(function () {
 
           //assign content
           let iconCode = data.list[i].weather[0].icon;
-          smIcon.setAttribute("src", `https://openweathermap.org/img/wn/${iconCode}.png`);
-          wind.textContent = `Wind Speed: ${Math.round(data.list[i].wind.speed * 10) / 10}mph`;
+          smIcon.setAttribute(
+            "src",
+            `https://openweathermap.org/img/wn/${iconCode}.png`
+          );
+          wind.textContent = `Wind Speed: ${
+            Math.round(data.list[i].wind.speed * 10) / 10
+          }mph`;
           temp.textContent = `Temp: ${Math.trunc(data.list[i].main.temp)}F`;
           humidity.textContent = `Humidity: ${data.list[i].main.humidity}%`;
           let dateText = data.list[i].dt_txt;
@@ -125,24 +146,27 @@ $(function () {
       });
   }
 
-
   function nth(d) {
     if (d > 3 && d < 21) return "th";
     switch (d % 10) {
-      case 1: return "st";
-      case 2: return "nd";
-      case 3: return "rd";
-      default: return "th";
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
     }
   }
 
-  //event listener for search history buttons, uses event bubbling to target the button elements in the display searches element 
-  displaySearches.addEventListener('click', function(e) {
+  //event listener for search history buttons, uses event bubbling to target the button elements in the display searches element
+  displaySearches.addEventListener("click", function (e) {
     //only alert for elements that have a "btn" class
-    if (e.target.classList.contains('btn')){
+    if (e.target.classList.contains("btn")) {
       getWeather(e.target.innerHTML);
     }
-  })
+  });
 
   //event listener to initiate search which calls get weather function to enact main functionality of web app
   searchBtn.addEventListener("click", search);

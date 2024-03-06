@@ -1,45 +1,74 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-        <title>Paige's Weather Place</title>
-    </head>
-    <body class="text-light p-5">
-        <header class="pt-5">
-            <h1 >Weather Pitstop</h1>
-        </header>
-        <main class="d-flex flex-column flex-md-row min-vh-100 m-3">
-            <section id="search" class="col-12 col-md-3 col-lg-3 m-1">
-                <form class="d-flex flex-column justify-content-center">
-                    <h2>Search for a City:</h2>
-                    <input id='city' type="text">
-                    <button id="searchbtn" type="submit" class="btn btn-primary m-2 ">Submit</button>
-                </form>
-                <div id="search-history" class="d-flex flex-column-reverse gap-2">
-                    <!--Search history buttons go here-->
-                </div>
-            </section>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abel&family=Dosis:wght@200..800&family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .quicksand-font {
+        font-family: "Quicksand", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+      }
+      .abel-regular {
+        font-family: "Abel", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+      }
+    </style>
+    <title>Paige's Weather Place</title>
+  </head>
+  <body class="text-light p-5">
+    <header class="pt-5 quicksand-font text-center">
+      <h1>STELLAR WEATHER</h1>
+    </header>
+    <main class="d-flex flex-column flex-md-row min-vh-100 m-3 abel-regular">
+      <section id="search" class="col-12 col-md-3 col-lg-3 m-1">
+        <form class="d-flex flex-column justify-content-center">
+          <h2>Search for a City:</h2>
+          <input id="city" type="text" />
+          <button id="searchbtn" type="submit" class="btn btn-dark m-2">
+            Submit
+          </button>
+        </form>
+        <h5 class="text-center">Search History:</h5>
+        <div id="search-history" class="d-flex flex-column-reverse gap-2">
+          <!--Search history buttons go here-->
+        </div>
+      </section>
 
-            <section id="results" class="col-12 col-md-9 col-lg-9 m-1">
-                <div id="weather-display">
-                    <!--This div contains empty elements that are changed dynamically by Js file to display current weather conditions-->
-                    <h2 id="city-display"></h2>
-                    <div id="date"></div>
-                    <img id="icon"/>
-                    <div id="temp"></div>
-                    <div id="humid"></div>
-                    <div id="wind"></div>
-                </div>
-                <div id="five-day" class="d-flex flex-column flex-lg-row">
-                    <!--This is where the five next days forcast cards will appear once dynamically created-->
-                </div>
-            </section>
-        </main>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js"></script>
-        <script src="./assets/js/script.js"></script>
-    </body>
+      <section id="results" class="col-12 col-md-9 col-lg-9 m-1">
+        <div id="weather-display">
+          <!--This div contains empty elements that are changed dynamically by Js file to display current weather conditions-->
+          <h2 id="city-display"></h2>
+          <div id="date"></div>
+          <img id="icon" />
+          <div id="temp"></div>
+          <div id="humid"></div>
+          <div id="wind"></div>
+        </div>
+        <div id="five-day" class="d-flex flex-column flex-lg-row">
+          <!--This is where the five next days forcast cards will appear once dynamically created-->
+        </div>
+      </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+  </body>
 </html>
