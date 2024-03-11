@@ -64,6 +64,7 @@ $(function () {
 
   function getWeather(city) {
     var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`;
+    var apiCelciusURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
     fetch(apiURL)
       .then(function (res) {
