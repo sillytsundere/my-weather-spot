@@ -35,7 +35,17 @@ $(function () {
     }
     var selectedUnits = unitsInput.value;
 
+    // retreive the search history from local storage
     var parsedCities = JSON.parse(window.localStorage.getItem("search"));
+
+    // check if the city with the same units already exists in the search history
+    var cityExists = parsedCities && parsedCities.some(cityObj => cityObj.city === city && cityObj.units === selectedUnits)
+
+    if (cityExists) {
+      alert("This city with the same units already exists in the search history.");
+      return;
+    }
+
     //if there arent any parsed cities user hasnt stored anything in local storage so we want to add their first city to local storage
     if (!parsedCities) {
       var searchedCities = [{ city: city, units: selectedUnits }];
