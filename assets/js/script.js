@@ -58,7 +58,7 @@ $(function () {
     //creates and displays searched cities as button elements and appends them to search history div element
     var historyItem = document.createElement("button");
     historyItem.setAttribute("class", "btn btn-dark");
-    historyItem.textContent = city;
+    historyItem.textContent = `${city}(\u00B0${selectedUnits === 'imperial' ? 'F' : 'C'})`;
     displaySearches.append(historyItem);
     getWeather(city, selectedUnits);
 
@@ -88,8 +88,6 @@ $(function () {
   }
 
   function getWeather(city, selectedUnits) {
-
-    // var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`;
     
     var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${selectedUnits}&appid=${apiKey}`;
 
