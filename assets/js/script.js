@@ -4,6 +4,7 @@ var theYear = dayjs().format("YYYY");
 var apiKey = "714201ec7c0eacaa109850c8fe5f66dd";
 var searchBtn = document.getElementById("searchbtn");
 var cityInput = document.getElementById("city");
+var unitsInput = document.querySelector('input[name="unitOptions"]:checked');
 var weatherDisplay = document.getElementById("weather-display");
 var cityDisplay = document.getElementById("city-display");
 var displaySearches = document.getElementById("search-history");
@@ -25,14 +26,23 @@ $(function () {
       return;
     }
 
+    // identify input that indicates user's chosen units
+    var unitsInput = document.querySelector('input[name="unitOptions"]:checked');
+    if (!unitsInput) {
+      //check if a radio has been selected, if not alert user, prompting them to choose one
+      alert("Please select units");
+      return;
+    }
+    var selectedUnits = unitsInput.value;
+
     var parsedCities = JSON.parse(window.localStorage.getItem("search"));
     //if there arent any parsed cities user hasnt stored anything in local storage so we want to add their first city to local storage
     if (!parsedCities) {
-      var searchedCities = [city];
+      var searchedCities = [{ city: city, units: selectedUnits }];
       localStorage.setItem("search", JSON.stringify(searchedCities));
     } else {
       //if there are parsed cities user has been here previously and we want to add those parsed cities to the array
-      parsedCities.push(city);
+      parsedCities.push({ city: city, units: selectedUnits });
       localStorage.setItem("search", JSON.stringify(parsedCities));
     }
     //creates and displays searched cities as button elements and appends them to search history div element
@@ -40,10 +50,15 @@ $(function () {
     historyItem.setAttribute("class", "btn btn-dark");
     historyItem.textContent = city;
     displaySearches.append(historyItem);
-    getWeather(city);
+    getWeather(city, selectedUnits);
 
     // clears search text box when search is submitted
     cityInput.value = "";
+    // Clear unit radio buttons
+    var unitRadioButtons = document.querySelectorAll('input[name="unitOptions"]');
+    unitRadioButtons.forEach(function(radioButton) {
+      radioButton.checked = false;
+    });
     // Unfocus the search button after search is made
     searchBtn.blur();
   }
@@ -53,18 +68,20 @@ $(function () {
   function previousSearches() {
     var searchHist = JSON.parse(localStorage.getItem("search"));
     if (searchHist) {
-      searchHist.forEach((city) => {
+      searchHist.forEach((searchItem) => {
         var historyItem = document.createElement("button");
         historyItem.setAttribute("class", "btn btn-dark");
-        historyItem.textContent = city;
+        historyItem.textContent = searchItem.city;
         displaySearches.append(historyItem);
       });
     }
   }
 
-  function getWeather(city) {
-    var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`;
-    var apiCelciusURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+  function getWeather(city, selectedUnits) {
+
+    // var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`;
+    
+    var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${selectedUnits}&appid=${apiKey}`;
 
     fetch(apiURL)
       .then(function (res) {
@@ -86,11 +103,11 @@ $(function () {
 
         // Give it content
         tempItem = Math.trunc(data.list[0].main.temp);
-        tempEl.textContent = `Temp: ${tempItem}\u00B0F`;
+        tempEl.textContent = `Temp: ${tempItem}\u00B0${selectedUnits === 'imperial' ? 'F' : 'C'}`;
         humidEl.textContent = `Humidity: ${data.list[0].main.humidity}%`;
         windEl.textContent = `Wind Speed: ${
           Math.round(data.list[0].wind.speed * 10) / 10
-        }mph`;
+        } ${selectedUnits === 'imperial' ? 'mph' : 'km/h'}`;
         dateEl.textContent = `${theMonth} ${theDay}${nth(theDay)} ${theYear}`;
 
         // Add icon src attribute
@@ -133,10 +150,10 @@ $(function () {
           );
           wind.textContent = `Wind Speed: ${
             Math.round(data.list[i].wind.speed * 10) / 10
-          }mph`;
+          } ${selectedUnits === 'imperial' ? 'mph' : 'km/h'}`;
           temp.textContent = `Temp: ${Math.trunc(
             data.list[i].main.temp
-          )}\u00B0F`;
+          )}\u00B0${selectedUnits === 'imperial' ? 'F' : 'C'}`;
           humidity.textContent = `Humidity: ${data.list[i].main.humidity}%`;
           let dateText = data.list[i].dt_txt;
           dateText = dateText.split(" ")[0].split("-");
@@ -173,7 +190,25 @@ $(function () {
   displaySearches.addEventListener("click", function (e) {
     //only alert for elements that have a "btn" class
     if (e.target.classList.contains("btn")) {
-      getWeather(e.target.innerHTML);
+      // Get the text content of the clicked button (city name)
+      var cityName = e.target.textContent;
+
+      // Retrieve the search history from local storage
+      var searchHist = JSON.parse(localStorage.getItem("search"));
+      // Find the search item with the matching city name
+      var searchItem = searchHist.find(item => item.city === cityName);
+
+      // Check if the search item is found
+      if (searchItem) {
+        // Get the city and units from the search item
+        var city = searchItem.city;
+        var units = searchItem.units;
+
+        // Call getWeather with the city and units
+        getWeather(city, units);
+      } else {
+        alert("Could not locate city in local storage.")
+      }
       // unfocus button after it is clicked
       e.target.blur();
     }

@@ -61,9 +61,20 @@
               Submit
             </button>
           </div>
+          <div>
+            <p>Please select units</p>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="unitOptions" id="inlineRadioImperial" value="imperial">
+              <label class="form-check-label" for="inlineRadioImperial">Imperial</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="unitOptions" id="inlineRadioMetric" value="metric">
+              <label class="form-check-label" for="inlineRadioMetric">Metric</label>
+            </div>
+          </div>
         </form>
 
-        <p class="text-center">Search History:</p>
+        <p class="text-center">Search History</p>
         <div id="search-history" class="d-flex flex-column-reverse gap-2">
           <!--Search history buttons go here-->
         </div>
