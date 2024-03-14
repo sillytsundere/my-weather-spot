@@ -4,7 +4,7 @@ var theYear = dayjs().format("YYYY");
 var apiKey = "714201ec7c0eacaa109850c8fe5f66dd";
 var searchBtn = document.getElementById("searchbtn");
 var cityInput = document.getElementById("city");
-var unitsInput = document.querySelector('input[name="unitOptions"]:checked');
+var unitRadioButtons = document.querySelectorAll('input[name="unitOptions"]');
 var weatherDisplay = document.getElementById("weather-display");
 var cityDisplay = document.getElementById("city-display");
 var displaySearches = document.getElementById("search-history");
@@ -43,6 +43,13 @@ $(function () {
 
     if (cityExists) {
       alert("This city with the same units already exists in the search history.");
+      searchBtn.blur();
+      //var unitRadioButtons = document.querySelectorAll('input[name="unitOptions"]');
+      // unitRadioButtons.forEach(function(radioButton) {
+      // radioButton.checked = false;
+      // });
+      $('input[name="unitOptions"]').prop("checked", false);
+      cityInput.value = "";
       return;
     }
 
@@ -65,7 +72,7 @@ $(function () {
     // clears search text box when search is submitted
     cityInput.value = "";
     // Clear unit radio buttons
-    var unitRadioButtons = document.querySelectorAll('input[name="unitOptions"]');
+    //var unitRadioButtons = document.querySelectorAll('input[name="unitOptions"]');
     unitRadioButtons.forEach(function(radioButton) {
       radioButton.checked = false;
     });
@@ -79,10 +86,14 @@ $(function () {
     var searchHist = JSON.parse(localStorage.getItem("search"));
     if (searchHist) {
       searchHist.forEach((searchItem) => {
-        var historyItem = document.createElement("button");
-        historyItem.setAttribute("class", "btn btn-dark");
-        historyItem.textContent = searchItem.city;
-        displaySearches.append(historyItem);
+        // var historyItem = document.createElement("button");
+        // historyItem.setAttribute("class", "btn btn-dark");
+        // historyItem.setAttribute("value", searchItem.city);
+        // historyItem.textContent = `${searchItem.city}(\u00B0${searchItem.units === 'imperial' ? 'F' : 'C'})`;
+        // displaySearches.append(historyItem);
+
+        var historyItem = $("<button>").addClass("btn btn-dark").val(searchItem.city).text(`${searchItem.city}(\u00B0${searchItem.units === 'imperial' ? 'F' : 'C'})`);
+        $("#search-history").append(historyItem);
       });
     }
   }
@@ -199,7 +210,7 @@ $(function () {
     //only alert for elements that have a "btn" class
     if (e.target.classList.contains("btn")) {
       // Get the text content of the clicked button (city name)
-      var cityName = e.target.textContent;
+      var cityName = e.target.value;
 
       // Retrieve the search history from local storage
       var searchHist = JSON.parse(localStorage.getItem("search"));
