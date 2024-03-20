@@ -19,7 +19,8 @@ $(function () {
     //prevents reload of page on search submission
     event.preventDefault();
     //grabs user search input and assigns it to 'city' variable
-    var city = cityInput.value;
+    // var city = cityInput.value;
+    var city = $("#city").val();
     //alerts user to enter a city name if search is submitted empty
     if (city === "") {
       alert("You must enter a city");
@@ -27,7 +28,9 @@ $(function () {
     }
 
     // identify input that indicates user's chosen units
-    var unitsInput = document.querySelector('input[name="unitOptions"]:checked');
+    var unitsInput = document.querySelector(
+      'input[name="unitOptions"]:checked'
+    );
     if (!unitsInput) {
       //check if a radio has been selected, if not alert user, prompting them to choose one
       alert("Please select units");
@@ -39,10 +42,16 @@ $(function () {
     var parsedCities = JSON.parse(window.localStorage.getItem("search"));
 
     // check if the city with the same units already exists in the search history
-    var cityExists = parsedCities && parsedCities.some(cityObj => cityObj.city === city && cityObj.units === selectedUnits)
+    var cityExists =
+      parsedCities &&
+      parsedCities.some(
+        (cityObj) => cityObj.city === city && cityObj.units === selectedUnits
+      );
 
     if (cityExists) {
-      alert("This city with the same units already exists in the search history.");
+      alert(
+        "This city with the same units already exists in the search history."
+      );
       searchBtn.blur();
       //var unitRadioButtons = document.querySelectorAll('input[name="unitOptions"]');
       // unitRadioButtons.forEach(function(radioButton) {
@@ -63,18 +72,23 @@ $(function () {
       localStorage.setItem("search", JSON.stringify(parsedCities));
     }
     //creates and displays searched cities as button elements and appends them to search history div element
-    var historyItem = document.createElement("button");
-    historyItem.setAttribute("class", "btn btn-dark");
-    historyItem.textContent = `${city}(\u00B0${selectedUnits === 'imperial' ? 'F' : 'C'})`;
-    displaySearches.append(historyItem);
+    var historyItem = $("<button>")
+      .addClass("btn btn-dark")
+      .val(city)
+      .data("units", selectedUnits)
+      .text(`${city}(\u00B0${selectedUnits === "imperial" ? "F" : "C"})`);
+    
+    // add newly created button to search history div
+    $("#search-history").append(historyItem);
+
+    // fetch weather for searched city with selected units
     getWeather(city, selectedUnits);
 
     // clears search text box when search is submitted
     cityInput.value = "";
     // Clear unit radio buttons
-    //var unitRadioButtons = document.querySelectorAll('input[name="unitOptions"]');
-    unitRadioButtons.forEach(function(radioButton) {
-      radioButton.checked = false;
+    $('[name="unitOptions"]').each(function () {
+      $(this).prop("checked", false);
     });
     // Unfocus the search button after search is made
     searchBtn.blur();
@@ -83,23 +97,32 @@ $(function () {
   //this function displays the search history saved in local storage upon page upload as it is called at the bottom of the code
   //it creates and displays cities saved in local storage as button elements and appends them to search-history div element upon page load
   function previousSearches() {
+    // access local storage
     var searchHist = JSON.parse(localStorage.getItem("search"));
     if (searchHist) {
+      // if there are items in search history create buttons to display previously searched cities users can click to 're-search' weather for that city
       searchHist.forEach((searchItem) => {
-        // var historyItem = document.createElement("button");
-        // historyItem.setAttribute("class", "btn btn-dark");
-        // historyItem.setAttribute("value", searchItem.city);
-        // historyItem.textContent = `${searchItem.city}(\u00B0${searchItem.units === 'imperial' ? 'F' : 'C'})`;
-        // displaySearches.append(historyItem);
-
-        var historyItem = $("<button>").addClass("btn btn-dark").val(searchItem.city).text(`${searchItem.city}(\u00B0${searchItem.units === 'imperial' ? 'F' : 'C'})`);
+        // create button
+        var historyItem = $("<button>")
+          // add styling class
+          .addClass("btn btn-dark")
+          // set value to city name
+          .val(searchItem.city)
+          // set data to units
+          .data("units", searchItem.units)
+          // set text content of button to city name and temperature units
+          .text(
+            `${searchItem.city}(\u00B0${
+              searchItem.units === "imperial" ? "F" : "C"
+            })`
+          );
+        // add newly created button to search history div
         $("#search-history").append(historyItem);
       });
     }
   }
 
   function getWeather(city, selectedUnits) {
-    
     var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${selectedUnits}&appid=${apiKey}`;
 
     fetch(apiURL)
@@ -122,11 +145,13 @@ $(function () {
 
         // Give it content
         tempItem = Math.trunc(data.list[0].main.temp);
-        tempEl.textContent = `Temp: ${tempItem}\u00B0${selectedUnits === 'imperial' ? 'F' : 'C'}`;
+        tempEl.textContent = `Temp: ${tempItem}\u00B0${
+          selectedUnits === "imperial" ? "F" : "C"
+        }`;
         humidEl.textContent = `Humidity: ${data.list[0].main.humidity}%`;
         windEl.textContent = `Wind Speed: ${
           Math.round(data.list[0].wind.speed * 10) / 10
-        } ${selectedUnits === 'imperial' ? 'mph' : 'km/h'}`;
+        } ${selectedUnits === "imperial" ? "mph" : "km/h"}`;
         dateEl.textContent = `${theMonth} ${theDay}${nth(theDay)} ${theYear}`;
 
         // Add icon src attribute
@@ -169,10 +194,10 @@ $(function () {
           );
           wind.textContent = `Wind Speed: ${
             Math.round(data.list[i].wind.speed * 10) / 10
-          } ${selectedUnits === 'imperial' ? 'mph' : 'km/h'}`;
+          } ${selectedUnits === "imperial" ? "mph" : "km/h"}`;
           temp.textContent = `Temp: ${Math.trunc(
             data.list[i].main.temp
-          )}\u00B0${selectedUnits === 'imperial' ? 'F' : 'C'}`;
+          )}\u00B0${selectedUnits === "imperial" ? "F" : "C"}`;
           humidity.textContent = `Humidity: ${data.list[i].main.humidity}%`;
           let dateText = data.list[i].dt_txt;
           dateText = dateText.split(" ")[0].split("-");
@@ -205,31 +230,60 @@ $(function () {
     }
   }
 
+  // //event listener for search history buttons, uses event bubbling to target the button elements in the display searches element
+  // displaySearches.addEventListener("click", function (e) {
+  //   //only alert for elements that have a "btn" class
+  //   if (e.target.classList.contains("btn")) {
+  //     // Get the text content of the clicked button (city name)
+  //     var cityName = e.target.value;
+
+  //     // Retrieve the search history from local storage
+  //     var searchHist = JSON.parse(localStorage.getItem("search"));
+  //     // Find the search item with the matching city name
+  //     var searchItem = searchHist.find((item) => item.city === cityName);
+
+  //     // Check if the search item is found
+  //     if (searchItem) {
+  //       // Get the city and units from the search item
+  //       var city = searchItem.city;
+  //       var units = searchItem.units;
+
+  //       // Call getWeather with the city and units
+  //       getWeather(city, units);
+  //     } else {
+  //       alert("Could not locate city in local storage.");
+  //     }
+  //     // unfocus button after it is clicked
+  //     e.target.blur();
+  //   }
+  // });
+  // event listener in jquery syntax
   //event listener for search history buttons, uses event bubbling to target the button elements in the display searches element
-  displaySearches.addEventListener("click", function (e) {
-    //only alert for elements that have a "btn" class
-    if (e.target.classList.contains("btn")) {
-      // Get the text content of the clicked button (city name)
-      var cityName = e.target.value;
+  $(document).on("click", "#search-history", function (e) {
+    // check if clicked element has the btn class
+    if ($(e.target).hasClass("btn")) {
+      // get the text content of the clicked button (city name)
 
-      // Retrieve the search history from local storage
+      // retreive the search history from local storage
       var searchHist = JSON.parse(localStorage.getItem("search"));
-      // Find the search item with the matching city name
-      var searchItem = searchHist.find(item => item.city === cityName);
+      // find the search item with the matching city name
+      var searchItem = searchHist.find(
+        (item) => item.city === cityName && item.units === cityUnits
+      );
 
-      // Check if the search item is found
+      // check if the search item is found
       if (searchItem) {
-        // Get the city and units from the search item
+        // get the city and units from the search item
         var city = searchItem.city;
         var units = searchItem.units;
 
-        // Call getWeather with the city and units
+        // call getWeather with the city and units
         getWeather(city, units);
       } else {
-        alert("Could not locate city in local storage.")
+        alert("Could not locate city in local storage.");
       }
       // unfocus button after it is clicked
-      e.target.blur();
+      $(e.target).blur();
     }
   });
 
