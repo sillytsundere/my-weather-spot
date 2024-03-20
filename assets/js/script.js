@@ -19,7 +19,6 @@ $(function () {
     //prevents reload of page on search submission
     event.preventDefault();
     //grabs user search input and assigns it to 'city' variable
-    // var city = cityInput.value;
     var city = $("#city").val();
     //alerts user to enter a city name if search is submitted empty
     if (city === "") {
@@ -52,12 +51,11 @@ $(function () {
       alert(
         "This city with the same units already exists in the search history."
       );
+      // unfocus seaarch button
       searchBtn.blur();
-      //var unitRadioButtons = document.querySelectorAll('input[name="unitOptions"]');
-      // unitRadioButtons.forEach(function(radioButton) {
-      // radioButton.checked = false;
-      // });
+      // clear radio buttons
       $('input[name="unitOptions"]').prop("checked", false);
+      // clear search input
       cityInput.value = "";
       return;
     }
@@ -130,10 +128,8 @@ $(function () {
         return res.json();
       })
       .then((data) => {
-        console.log(data, "the data object");
 
-        // document.getElementById('weather-display').innerHTML = "";
-        //potential to refactor this section to create elements dynamically instead of editing empty html elements
+        // display city name in section header
         cityDisplay.textContent = city;
 
         //identify element
@@ -216,6 +212,7 @@ $(function () {
       });
   }
 
+  // function to display appropriate suffix for date in current day weather display
   function nth(d) {
     if (d > 3 && d < 21) return "th";
     switch (d % 10) {
@@ -230,39 +227,13 @@ $(function () {
     }
   }
 
-  // //event listener for search history buttons, uses event bubbling to target the button elements in the display searches element
-  // displaySearches.addEventListener("click", function (e) {
-  //   //only alert for elements that have a "btn" class
-  //   if (e.target.classList.contains("btn")) {
-  //     // Get the text content of the clicked button (city name)
-  //     var cityName = e.target.value;
-
-  //     // Retrieve the search history from local storage
-  //     var searchHist = JSON.parse(localStorage.getItem("search"));
-  //     // Find the search item with the matching city name
-  //     var searchItem = searchHist.find((item) => item.city === cityName);
-
-  //     // Check if the search item is found
-  //     if (searchItem) {
-  //       // Get the city and units from the search item
-  //       var city = searchItem.city;
-  //       var units = searchItem.units;
-
-  //       // Call getWeather with the city and units
-  //       getWeather(city, units);
-  //     } else {
-  //       alert("Could not locate city in local storage.");
-  //     }
-  //     // unfocus button after it is clicked
-  //     e.target.blur();
-  //   }
-  // });
-  // event listener in jquery syntax
   //event listener for search history buttons, uses event bubbling to target the button elements in the display searches element
   $(document).on("click", "#search-history", function (e) {
     // check if clicked element has the btn class
     if ($(e.target).hasClass("btn")) {
       // get the text content of the clicked button (city name)
+      var cityName = $(e.target).val();
+      var cityUnits = $(e.target).data().units;
 
       // retreive the search history from local storage
       var searchHist = JSON.parse(localStorage.getItem("search"));
@@ -288,7 +259,7 @@ $(function () {
   });
 
   //event listener to initiate search which calls get weather function to enact main functionality of web app
-  searchBtn.addEventListener("click", search);
+  $("#searchbtn").on("click", search);
 
   //displays search history retreived from local storage when page is loaded
   previousSearches();
