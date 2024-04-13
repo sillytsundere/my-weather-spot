@@ -10,10 +10,12 @@ var cityDisplay = document.getElementById("city-display");
 var displaySearches = document.getElementById("search-history");
 
 $(function () {
-  $("body").css(
-    "background",
-    "linear-gradient(to top, #FFC371 0%, #09203F 85%)"
-  );
+
+  $("body").css({
+    "background": "linear-gradient(to top, #537895 0%, #09203F 85%)",
+    "background-repeat": "no-repeat",
+    "min-height": "100vh"
+  });
 
   function search(event) {
     //prevents reload of page on search submission
@@ -71,7 +73,7 @@ $(function () {
     }
     //creates and displays searched cities as button elements and appends them to search history div element
     var historyItem = $("<button>")
-      .addClass("btn btn-dark")
+      .addClass("btn btn-light fs-5")
       .val(city)
       .data("units", selectedUnits)
       .text(`${city}(\u00B0${selectedUnits === "imperial" ? "F" : "C"})`);
@@ -103,7 +105,7 @@ $(function () {
         // create button
         var historyItem = $("<button>")
           // add styling class
-          .addClass("btn btn-dark")
+          .addClass("btn btn-light fs-5")
           // set value to city name
           .val(searchItem.city)
           // set data to units
@@ -128,6 +130,16 @@ $(function () {
         return res.json();
       })
       .then((data) => {
+
+        //add border to weather display
+        weatherDisplay.classList.add(
+          "m-1",
+          "p-3",
+          "border",
+          "border-2",
+          "rounded-3",
+          "border-white"
+        );
 
         // display city name in section header
         cityDisplay.textContent = city;
@@ -155,11 +167,13 @@ $(function () {
           "src",
           `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}.png`
         );
+        iconEl.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+        iconEl.classList.add("rounded-circle");
 
         //for loop to generate and display future weather conditions for next 5 days
         document.getElementById("five-day").innerHTML = "";
         for (let i = 7; i < 40; i += 8) {
-          //create elements
+          //create element
           let card = document.createElement("div");
           card.classList.add(
             "col",
@@ -169,11 +183,12 @@ $(function () {
             "rounded-3",
             "border-white"
           );
-          // Add the 'show' class to trigger the slide-in effect
+          // give card a transparent background
           card.setAttribute(
             "style",
             "background-color: rgba(255, 255, 255, 0); "
           );
+          // Create card elements
           let cardBody = document.createElement("div");
           cardBody.setAttribute("class", "card-body");
           let date = document.createElement("h3");
@@ -182,12 +197,16 @@ $(function () {
           let temp = document.createElement("p");
           let humidity = document.createElement("p");
 
-          //assign content
+          // Assign content to icon element
           let iconCode = data.list[i].weather[0].icon;
           smIcon.setAttribute(
             "src",
             `https://openweathermap.org/img/wn/${iconCode}.png`
           );
+          // Give icon transparent background and rounded style
+          smIcon.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+          smIcon.classList.add("rounded-circle");
+          // Assign content to card elements
           wind.textContent = `Wind Speed: ${
             Math.round(data.list[i].wind.speed * 10) / 10
           } ${selectedUnits === "imperial" ? "mph" : "km/h"}`;
@@ -204,9 +223,12 @@ $(function () {
           document.getElementById("five-day").append(card);
           // trigger slide-in effect after a short delay
           setTimeout(() => {
+            // Add the 'show' class to trigger the slide-in effect
             card.classList.add("show");
           }, 100 * i); // adjust the delay as needed
+          // Add five-day card to the card div
           card.append(cardBody);
+          // Add card elements to the five-day card
           cardBody.append(date, smIcon, temp, humidity, wind);
         }
       });

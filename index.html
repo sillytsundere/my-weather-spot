@@ -42,12 +42,14 @@
     </style>
     <title>Stellar Weather</title>
   </head>
-  <body class="text-light p-5">
-    <header class="pt-5 quicksand-font text-center">
-      <h1>S T E L L A R &nbsp;&nbsp;&nbsp; W E A T H E R</h1>
+  <body class="text-light p-5 d-flex flex-column justify-content-center">
+    <header class="pt-3 quicksand-font text-center">
+      <h1 aria-label="Stellar Weather">S T E L L A R &nbsp;&nbsp;&nbsp; W E A T H E R</h1>
     </header>
-    <main class="min-vh-100 m-3 abel-regular d-flex flex-column flex-md-row">
-      <section id="search" class="col-12 col-md-3 col-lg-3 m-2">
+    <main
+      class="abel-regular d-flex flex-column flex-md-row m-3 justify-content-center"
+    >
+      <section id="search" class="col-12 col-md-2 col-lg-3 m-2 text-center">
         <form class="form-group" role="search">
           <label for="city">Search for a City</label>
           <div class="input-group mb-3">
@@ -55,32 +57,48 @@
               id="city"
               type="text"
               class="form-control"
-              aria-label="City name"
+              
             />
-            <button id="searchbtn" class="btn btn-dark" type="submit">
+            <button id="searchbtn" class="btn btn-light" type="submit">
               Submit
             </button>
           </div>
           <div>
-            <p>Please select units</p>
+            <label>Please select units</label>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="unitOptions" id="inlineRadioImperial" value="imperial">
-              <label class="form-check-label" for="inlineRadioImperial">Imperial</label>
+              <input
+                class="form-check-input"
+                type="radio"
+                name="unitOptions"
+                id="inlineRadioImperial"
+                value="imperial"
+              />
+              <label class="form-check-label" for="inlineRadioImperial"
+                >Imperial</label
+              >
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="unitOptions" id="inlineRadioMetric" value="metric">
-              <label class="form-check-label" for="inlineRadioMetric">Metric</label>
+              <input
+                class="form-check-input"
+                type="radio"
+                name="unitOptions"
+                id="inlineRadioMetric"
+                value="metric"
+              />
+              <label class="form-check-label" for="inlineRadioMetric"
+                >Metric</label
+              >
             </div>
           </div>
         </form>
 
-        <p class="text-center">Search History</p>
+        <label for="search-history" class="text-center">Search History</label>
         <div id="search-history" class="d-flex flex-column-reverse gap-2">
           <!--Search history buttons go here-->
         </div>
       </section>
 
-      <section id="results" class="col-12 col-md-9 col-lg-9 m-2">
+      <section id="results" class="col-12 col-md-6 col-lg-6 m-2">
         <div id="weather-display">
           <!--This div contains empty elements that are changed dynamically by Js file to display current weather conditions-->
           <h2 id="city-display"></h2>

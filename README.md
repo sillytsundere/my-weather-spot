@@ -2,11 +2,13 @@
 
 ## Description
 
-I have a primal desire to travel and see as much of this world with my own two eyes as I can during my short time here. This web application serves to assist my acheivement of that goal.
-
 This weather application displays the current forcast for a desired city as well as the future forcast over a 5 day period. This application can make it easier for those who are frequently traveling to view the current and future weather conditions for the cities they wish to travel to. The search history section also allows users to easily view cities they have recently searched and recheck the weather conditions of that city. This can aid in comparing weather conditions of searched cities when choosing where to travel.
 
 This application required me to become familiar with API's and making fetch requests from them. It also allowed for extra practice traversing the fetched objects from the API library. I was also able to practice with some basic elements of Bootstrap styling, as there is no external CSS file in this web application. I challenged myself to use as much Bootstrap styling as possible (thinking I could get away without using any basic CSS), but there are a few things Bootstrap can't quite do on its own. In keeping with using as little basic CSS as possible I limited myself to internal CSS with no external CSS.
+
+After some time I returned to this application and refactored much of it. I wanted to enhance the application's accessibility after learning more about web accessibility standards. I tested background colors and their contrast against the text and button colors so that they met [WCAG](https://www.w3.org/TR/WCAG21/#:~:text=Web%20Content%20Accessibility%20Guidelines%20(WCAG)%202.1%20defines%20how%20to%20make,%2C%20learning%2C%20and%20neurological%20disabilities.) standards with help from the [color contrast checker](https://www.audioeye.com/color-contrast-checker/?cc_gate=check&utm_adgroup=Color-Checker&utm_source=google&utm_medium=paidsearch&utm_campaign=Generic-Color-Contrast-Checker-97F&utm_term=color%20accessibility%20test&utm_content=colorcontrastchecker&hsa_acc=3628656526&hsa_cam=20762452258&hsa_grp=156873707433&hsa_ad=680111723422&hsa_src=g&hsa_tgt=kwd-443638824856&hsa_kw=color%20accessibility%20test&hsa_mt=e&hsa_net=adwords&hsa_ver=3&gad_source=1&gclid=CjwKCAjwzN-vBhAkEiwAYiO7oJ6kpi5F9EJIdlA_P7rQBpXN0B_jpinvPU8ruXTAx-0sMibEdRMwzBoCqgwQAvD_BwE) from [audioeye](https://www.audioeye.com/?_gl=1*1waa3dn*_up*MQ..&gclid=CjwKCAjwzN-vBhAkEiwAYiO7oJ6kpi5F9EJIdlA_P7rQBpXN0B_jpinvPU8ruXTAx-0sMibEdRMwzBoCqgwQAvD_BwE). I added backgrounds behind the weather icons so they would be more easily visible. The icons have a white and a dark color on them that made the background difficult to adjust to be accessible for both. I hope to continue to make this more accessible for all users.
+
+I also have checked that users are able to use the keyboard to navigate through the application. One issue here is that once a user has tabbed to the search history buttons, they navigate through then from the bottom up, as I have them organized in descending order so that the most recent search is at the top. I hope to find a way around this in the future. 
 
 ## Installation
 
@@ -45,7 +47,3 @@ This application uses the [Open Weather API](https://openweathermap.org/api).
 ## License
 
 MIT License
-
-## How to Contribute
-
-If you would like to contribute to this application please reach out to me at [my Github page](https://github.com/sillytsundere).
