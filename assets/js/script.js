@@ -216,7 +216,7 @@ $(function () {
           humidity.textContent = `Humidity: ${data.list[i].main.humidity}%`;
           let dateText = data.list[i].dt_txt;
           dateText = dateText.split(" ")[0].split("-");
-          let day = `${dateText[1]}/${dateText[2]}/${dateText[0]}`;
+          let day = `${selectedUnits === "imperial" ? `${dateText[1]}/${dateText[2]}/${dateText[0]}` : `${dateText[2]}/${dateText[1]}/${dateText[0]}`}`;
           date.textContent = day;
 
           //add to html 'five-day' element
