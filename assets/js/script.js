@@ -225,7 +225,7 @@ $(function () {
           setTimeout(() => {
             // Add the 'show' class to trigger the slide-in effect
             card.classList.add("show");
-          }, 100 * i); // adjust the delay as needed
+          }, 60 * i); // adjust the delay as needed
           // Add five-day card to the card div
           card.append(cardBody);
           // Add card elements to the five-day card
